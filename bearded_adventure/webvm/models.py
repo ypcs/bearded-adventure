@@ -29,7 +29,7 @@ class Slave(models.Model):
 
     status = models.CharField(max_length=2, choices=SLAVE_STATUSES)
     
-    ssh_public_key = models.TextField(blank=True,null=True)
+    ssh_public_key = models.TextField(blank=True,null=True, verbose_name='SSH Public Key')
     
     def get_id(self):
         return "%s%s" % (self.__prefix, self.uuid)
