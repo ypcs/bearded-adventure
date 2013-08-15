@@ -22,7 +22,8 @@ Optional: Setup Vagrant box for development.
     vagrant up # (in directory bearded-adventure)
     vagrant ssh
 
-Create new Python virtualenv.
+Create new Python virtualenv. If you prefer not using virtualenv, see 
+requirements.txt for required Python packages (& supported versions).
 
     apt-get install python-virtualenv python-pip virtualenvwrapper
     source /etc/bash_completion.d/virtualenvwrapper # might be needed (to get virtualenvwrapper working w/o logout)
