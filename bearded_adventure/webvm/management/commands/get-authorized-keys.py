@@ -9,10 +9,17 @@ from webvm.models import Slave
 
 import os
 
+SSH_FLAGS = (
+    'no-port-forwarding',
+    'no-X11-forwarding',
+    'no-agent-forwarding',
+    'no-pty',
+)
+
 class Command(BaseCommand):
     help = ''
     
     def handle(self, *args, **kwargs):
         slaves = Slave.objects.filter(status='E')
         for s in slaves:
-            print '%s' % s.ssh_public_key
+            print 'command="webvm-get-slave-connection %s",%s %s' % (s.uuid, ",".join(SSH_FLAGS), s.ssh_public_key)
