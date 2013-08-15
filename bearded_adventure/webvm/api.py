@@ -2,6 +2,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from webvm.models import Slave, Snapshot, VirtualMachine, MachineImage, HwConfiguration, JobQueueItem
 from bearded_adventure.common import CamelCaseJSONSerializer
 from tastypie import fields
+from tastypie.authentication import ApiKeyAuthentication
 
 class SlaveResource(ModelResource):
     class Meta:
@@ -15,6 +16,7 @@ class SlaveResource(ModelResource):
             'uuid': ALL,
         }
         serializer = CamelCaseJSONSerializer()
+        authentication = ApiKeyAuthentication()
 #        detail_uri_name = 'uuid'
     
 #    def prepend_urls(self):
@@ -26,6 +28,7 @@ class MachineImageResource(ModelResource):
         resource_name = 'machine-image'
         serializer = CamelCaseJSONSerializer()
         excludes = ['id',]
+        authentication = ApiKeyAuthentication()
 
 
 class VirtualMachineResource(ModelResource):
@@ -34,6 +37,7 @@ class VirtualMachineResource(ModelResource):
         queryset = VirtualMachine.objects.all()
         resource_name = 'virtual_machine'
         serializer = CamelCaseJSONSerializer()
+        authentication = ApiKeyAuthentication()
 
 class JobQueueResource(ModelResource):
     virtual_machine = fields.ForeignKey(VirtualMachineResource, 'vm')
@@ -42,3 +46,4 @@ class JobQueueResource(ModelResource):
         resource_name = 'queue'
         serializer = CamelCaseJSONSerializer()
         excludes = ['id',]
+        authentication = ApiKeyAuthentication()
