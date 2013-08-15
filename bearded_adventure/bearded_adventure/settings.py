@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'south',
     'django_extensions',
     'gunicorn',
+    'webvm',
 )
 
 # A sample logging configuration. The only tangible logging
