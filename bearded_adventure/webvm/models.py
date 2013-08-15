@@ -36,3 +36,6 @@ class VirtualMachine(models.Model):
 class Snapshot(models.Model):
     uuid = UUIDField()
     vm = models.ForeignKey(VirtualMachine)
+    
+    created = CreationDateTimeField()
+    modified = ModificationDateTimeField()
