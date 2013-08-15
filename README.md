@@ -56,3 +56,8 @@ Update your Nginx config:
     }
                     
     # TODO: Add config for WebSocket proxy.
+
+
+## API
+
+    $HOST/api/v1/<resource>/<id>/?format=json&username=<your-username>&api_key=<your-api-key>
