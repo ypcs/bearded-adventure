@@ -85,3 +85,24 @@ class Snapshot(models.Model):
 
     def __str__(self):
         return "Snapshot %s" % self.uuid
+
+class JobQueueItem(models.Model):
+    __prefix = 'JQ'
+    JOBQUEUE_STATUSES = (
+        ('W', 'Waiting'),
+        ('R', 'Running'),
+    )
+    uuid = UUIDField()
+    vm = models.ForeignKey(VirtualMachine)
+    
+    created = CreationDateTimeField()
+    modified = ModificationDateTimeField()
+
+    status = models.CharField(max_length=2, choices=JOBQUEUE_STATUSES)
+    priority = models.IntegerField(default=0)
+    
+    def get_id(self):
+        return "%s%s" % (self.__prefix, self.uuid)
+    
+    def __str__(self):
+        return "%s (%s) (p: %d)" % (self.get_id(), self.vm, self.priority)
