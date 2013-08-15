@@ -33,7 +33,7 @@ class MachineImageResource(ModelResource):
 
 class JobQueueResource(ModelResource):
     class Meta:
-        queryset = JobQueueItem.objects.all()
+        queryset = JobQueueItem.objects.all().order_by('-priority', 'created')
         resource_name = 'queue'
         serializer = CamelCaseJSONSerializer()
         excludes = ['id',]
