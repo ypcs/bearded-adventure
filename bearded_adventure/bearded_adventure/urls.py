@@ -6,12 +6,13 @@ admin.autodiscover()
 
 from tastypie.api import Api
 
-from webvm.api import VirtualMachineResource, SlaveResource, MachineImageResource
+from webvm.api import VirtualMachineResource, SlaveResource, MachineImageResource, JobQueueResource
 
 v1_api = Api(api_name='v1')
 v1_api.register(VirtualMachineResource())
 v1_api.register(SlaveResource())
 v1_api.register(MachineImageResource())
+v1_api.register(JobQueueResource())
 
 
 urlpatterns = patterns('',
