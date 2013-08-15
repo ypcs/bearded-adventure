@@ -113,4 +113,4 @@ class JobQueueItem(models.Model):
         self.save()
     
     def __str__(self):
-        return "%s (%s) (p: %d)" % (get_id(self), self.vm, self.priority)
+        return "%s (%s) (p: %d, s: %s)" % (get_id(self), self.vm, self.priority, self.status)
