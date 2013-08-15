@@ -4,17 +4,17 @@ from django.contrib.auth.models import User
 
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField, UUIDField
 
+def get_id(object):
+    return "%s-%s" % (object.prefix, object.uuid)
+
 class HwConfiguration(models.Model):
-    __prefix = 'hw'
+    prefix = 'hw'
     uuid = UUIDField()
     memory_size = models.PositiveIntegerField()
     cpu_count = models.PositiveIntegerField()    
 
-    def get_id(self):
-        return "%s%s" % (self.__prefix, self.uuid)
-
     def __str__(self):
-        return "%s (cpu: %d, mem: %dMB)" % (self.get_id(), self.cpu_count, self.memory_size)
+        return "%s (cpu: %d, mem: %dMB)" % (get_id(self), self.cpu_count, self.memory_size)
 
 class Slave(models.Model):
     SLAVE_STATUSES = (
@@ -22,7 +22,7 @@ class Slave(models.Model):
         ('D', 'Disabled'),
         ('B', 'Banned'),
     )
-    __prefix = 'sl'
+    prefix = 'sl'
     uuid = UUIDField()
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -32,14 +32,11 @@ class Slave(models.Model):
     
     ssh_public_key = models.TextField(blank=True,null=True, verbose_name='SSH Public Key')
     
-    def get_id(self):
-        return "%s%s" % (self.__prefix, self.uuid)
-    
     def __str__(self):
-        return "%s (%s, owner: %s)" % (self.get_id(), self.name, self.owner)
+        return "%s (%s, owner: %s)" % (get_id(self), self.name, self.owner)
 
 class MachineImage(models.Model):
-    __prefix = 'mi'
+    prefix = 'mi'
     uuid = UUIDField()
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -49,14 +46,11 @@ class MachineImage(models.Model):
     url = models.URLField()
     checksum = models.CharField(max_length=255)
 
-    def get_id(self):
-        return "%s%s" % (self.__prefix, self.uuid)
-    
     def __str__(self):
-        return "MI %s (%s, %s)" % (self.get_id(), self.name, self.hardware)
+        return "MI %s (%s, %s)" % (get_id(self), self.name, self.hardware)
 
 class VirtualMachine(models.Model):
-    __prefix = 'vm'
+    prefix = 'vm'
     uuid = UUIDField()
     slave = models.ForeignKey(Slave, blank=True, null=True)
     
@@ -66,34 +60,28 @@ class VirtualMachine(models.Model):
     machine_image = models.ForeignKey(MachineImage)
     owner = models.ForeignKey(User)
 
-    def get_id(self):
-        return "%s%s" % (self.__prefix, self.uuid)
-
     def __str__(self):
         return "VM %s" % self.uuid
 
 class Snapshot(models.Model):
-    __prefix = 's'
+    prefix = 's'
     uuid = UUIDField()
     vm = models.ForeignKey(VirtualMachine)
     
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
-    def get_id(self):
-        return "%s%s" % (self.__prefix, self.uuid)
-
     def __str__(self):
         return "Snapshot %s" % self.uuid
 
 class JobQueueItem(models.Model):
-    __prefix = 'JQ'
+    prefix = 'JQ'
     JOBQUEUE_STATUSES = (
         ('W', 'Waiting'),
         ('R', 'Running'),
     )
     uuid = UUIDField()
-    vm = models.ForeignKey(VirtualMachine)
+    vm = models.OneToOneField(VirtualMachine)
     
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
@@ -101,8 +89,5 @@ class JobQueueItem(models.Model):
     status = models.CharField(max_length=2, choices=JOBQUEUE_STATUSES)
     priority = models.IntegerField(default=0)
     
-    def get_id(self):
-        return "%s%s" % (self.__prefix, self.uuid)
-    
     def __str__(self):
-        return "%s (%s) (p: %d)" % (self.get_id(), self.vm, self.priority)
+        return "%s (%s) (p: %d)" % (get_id(self), self.vm, self.priority)
