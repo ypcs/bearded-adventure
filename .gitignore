@@ -1,3 +1,4 @@
 *~
 .vagrant
 local_settings.py
+*.py[co]
