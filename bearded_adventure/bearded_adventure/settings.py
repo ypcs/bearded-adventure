@@ -154,3 +154,9 @@ LOGGING = {
         },
     }
 }
+
+# Try importing local settings
+try:
+    from bearded_adventure.local_settings import *
+except ImportError:
+    pass
