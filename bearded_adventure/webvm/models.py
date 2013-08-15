@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 from django_extensions.db.fields import AutoSlugField, CreationDateTimeField, ModificationDateTimeField, UUIDField
 
+JOB_STATUS_WAITING = 'W'
+JOB_STATUS_RUNNING = 'R'
+
 def get_id(object):
     return "%s-%s" % (object.prefix, object.uuid)
 
@@ -31,6 +34,19 @@ class Slave(models.Model):
     status = models.CharField(max_length=2, choices=SLAVE_STATUSES)
     
     ssh_public_key = models.TextField(blank=True,null=True, verbose_name='SSH Public Key')
+
+    def get_new_job(self):
+        # TODO: Get list of jobs for which I meet the requirements (hardware, free resources)
+        jobs = JobQueueItem.objects.filter(status=JOB_STATUS_WAITING).order_by('-priority')
+        if len(jobs) == 0:
+            return False
+        my_job = jobs[0]
+        my_job.vm.slave = self
+        my_job.status = JOB_STATUS_RUNNING
+        my_job.save()
+        # TODO: Append to log ("slave X got job Y")
+        # TODO: Inform slave about new jobs
+        print my_job
     
     def __str__(self):
         return "%s (%s, owner: %s)" % (get_id(self), self.name, self.owner)
@@ -77,8 +93,8 @@ class Snapshot(models.Model):
 class JobQueueItem(models.Model):
     prefix = 'JQ'
     JOBQUEUE_STATUSES = (
-        ('W', 'Waiting'),
-        ('R', 'Running'),
+        (JOB_STATUS_WAITING, 'Waiting'),
+        (JOB_STATUS_RUNNING, 'Running'),
         ('C', 'Completed'),
         ('F', 'Failure'),
     )
@@ -88,7 +104,7 @@ class JobQueueItem(models.Model):
     created = CreationDateTimeField()
     modified = ModificationDateTimeField()
 
-    status = models.CharField(max_length=2, choices=JOBQUEUE_STATUSES)
+    status = models.CharField(max_length=2, choices=JOBQUEUE_STATUSES, default=JOB_STATUS_WAITING)
     priority = models.IntegerField(default=0)
 
     def update_status(self, new_status):
