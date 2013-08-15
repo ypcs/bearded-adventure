@@ -11,7 +11,10 @@ class SlaveResource(ModelResource):
     class Meta:
         queryset = Slave.objects.all()
         resource_name = 'slave'
-        exclude = ['id',]
+        excludes = [
+            'id',
+            'ssh_public_key',
+        ]
         filtering = {
             'uuid': ALL,
         }
