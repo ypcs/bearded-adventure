@@ -17,11 +17,17 @@ class HwConfiguration(models.Model):
         return "%s (cpu: %d, mem: %dMB)" % (self.get_id(), self.cpu_count, self.memory_size)
 
 class Slave(models.Model):
+    SLAVE_STATUSES = (
+        ('E', 'Enabled'),
+        ('D', 'Disabled'),
+    )
     __prefix = 'sl'
     uuid = UUIDField()
     name = models.CharField(max_length=255)
     description = models.TextField()
     owner = models.ForeignKey(User)
+
+    status = models.CharField(max_length=2, choices=SLAVE_STATUSES)
     
     ssh_public_key = models.TextField(blank=True,null=True)
     
