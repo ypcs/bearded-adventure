@@ -90,6 +90,11 @@ class JobQueueItem(models.Model):
 
     status = models.CharField(max_length=2, choices=JOBQUEUE_STATUSES)
     priority = models.IntegerField(default=0)
+
+    def update_status(self, new_status):
+        # TODO: Check that new_status is a valid status
+        self.status = new_status
+        self.save()
     
     def __str__(self):
         return "%s (%s) (p: %d)" % (get_id(self), self.vm, self.priority)
