@@ -1,12 +1,7 @@
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from webvm.models import Slave, Snapshot, VirtualMachine, MachineImage, HwConfiguration, JobQueueItem
 from bearded_adventure.common import CamelCaseJSONSerializer
-
-class VirtualMachineResource(ModelResource):
-    class Meta:
-        queryset = VirtualMachine.objects.all()
-        resource_name = 'virtualmachine'
-        serializer = CamelCaseJSONSerializer()
+from tastypie import fields
 
 class SlaveResource(ModelResource):
     class Meta:
@@ -30,8 +25,18 @@ class MachineImageResource(ModelResource):
         queryset = MachineImage.objects.all()
         resource_name = 'machine-image'
         serializer = CamelCaseJSONSerializer()
+        excludes = ['id',]
+
+
+class VirtualMachineResource(ModelResource):
+    machine_image = fields.ForeignKey(MachineImageResource, 'machine_image')
+    class Meta:
+        queryset = VirtualMachine.objects.all()
+        resource_name = 'virtual_machine'
+        serializer = CamelCaseJSONSerializer()
 
 class JobQueueResource(ModelResource):
+    virtual_machine = fields.ForeignKey(VirtualMachineResource, 'vm')
     class Meta:
         queryset = JobQueueItem.objects.all().order_by('-priority', 'created')
         resource_name = 'queue'
