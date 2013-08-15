@@ -1,0 +1,13 @@
+(on host machine, how to setup development box)
+apt-get install vagrant
+git clone $REPO
+cd $REPO
+vagrant up
+
+(=> use dev box)
+vagrant ssh
+apt-get install python-pip python-virtualenv virtualenvwrapper
+(logout or: source /etc/bash_completion.d/virtualenvwrapper)
+mkvirtualenv bearded
+
+pip install -r requirements.txt
