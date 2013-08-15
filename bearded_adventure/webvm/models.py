@@ -23,6 +23,8 @@ class Slave(models.Model):
     description = models.TextField()
     owner = models.ForeignKey(User)
     
+    ssh_public_key = models.TextField(blank=True,null=True)
+    
     def get_id(self):
         return "%s%s" % (self.__prefix, self.uuid)
     
