@@ -20,7 +20,7 @@ class SlaveResource(ModelResource):
 #        detail_uri_name = 'uuid'
     
 #    def prepend_urls(self):
-#        return [url(r'^(?P<resource_name>%s)/(?P<uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$', self._meta.resource_name, self.wrap_view('dispatch_detail'), name='api_dispatch_detail')]
+#        return [url(r'^(?P<resource_name>%s)/(?P<uuid>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$' % self._meta.resource_name, self.wrap_view('dispatch_detail'), name='api_dispatch_detail')]
 
 class MachineImageResource(ModelResource):
     class Meta:
