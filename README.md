@@ -5,6 +5,9 @@ Bearded Adventure is ....
 This package includes Django-based (master) server. You also need client 
 tools for slaves, available as separate package. (In future!)
 
+## Why Bearded Advanture?
+It was name that GitHub repository name generator gave us! 
+
 
 ## Getting started
 
