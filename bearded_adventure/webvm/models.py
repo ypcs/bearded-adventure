@@ -20,6 +20,7 @@ class Slave(models.Model):
     SLAVE_STATUSES = (
         ('E', 'Enabled'),
         ('D', 'Disabled'),
+        ('B', 'Banned'),
     )
     __prefix = 'sl'
     uuid = UUIDField()
