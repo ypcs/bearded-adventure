@@ -49,6 +49,8 @@ class MachineImage(models.Model):
 class VirtualMachine(models.Model):
     __prefix = 'vm'
     uuid = UUIDField()
+    slave = models.ForeignKey(Slave, blank=True, null=True)
+    
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     
