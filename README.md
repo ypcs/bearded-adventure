@@ -7,17 +7,22 @@ tools for slaves, available as separate package. (In future!)
 
 
 ## Getting started
-Currently developed in Python Virtualenv, `apt-get install 
-python-virtualenv python-pip virtualenvwrapper` might be required, 
-depending on your environment.
 
 Fetch code from GitHub.
 
     git clone https://github.com/ypcs/bearded-adventure
     cd bearded-adventure
 
-Create new Python virtualenv.    
+Optional: Setup Vagrant box for development.
 
+    apt-get install vagrant
+    vagrant up # (in directory bearded-adventure)
+    vagrant ssh
+
+Create new Python virtualenv.
+
+    apt-get install python-virtualenv python-pip virtualenvwrapper
+    source /etc/bash_completion.d/virtualenvwrapper # might be needed (to get virtualenvwrapper working w/o logout)
     mkvirtualenv bearded
 
 Install Python requirements.
