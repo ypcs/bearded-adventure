@@ -79,6 +79,8 @@ class JobQueueItem(models.Model):
     JOBQUEUE_STATUSES = (
         ('W', 'Waiting'),
         ('R', 'Running'),
+        ('C', 'Completed'),
+        ('F', 'Failure'),
     )
     uuid = UUIDField()
     vm = models.OneToOneField(VirtualMachine)
