@@ -15,6 +15,8 @@ Fetch code from GitHub.
 
     git clone https://github.com/ypcs/bearded-adventure
     cd bearded-adventure
+    git submodule init
+    git submodule sync
 
 Optional: Setup Vagrant box for development.
 
