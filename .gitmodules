@@ -1,0 +1,3 @@
+[submodule "bearded_adventure/webvm/static/spice-html5"]
+	path = bearded_adventure/webvm/static/spice-html5
+	url = git://github.com/ypcs/spice-html5.git
