@@ -1,5 +1,13 @@
-*~
-.vagrant
-local_settings.py
 *.py[co]
+*~
+*.tmp
+*.sqlite
+RELEASE-VERSION
+MANIFEST
+dist
+build
+deb_dist
+avoin.egg-info
 *.db
+local_settings.py
+.vagrant
