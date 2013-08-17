@@ -52,13 +52,18 @@ class Slave(models.Model):
         return "%s (%s, owner: %s)" % (get_id(self), self.name, self.owner)
 
 class Tunnel(models.Model):
+    __prefix = 'T'
     uuid = UUIDField()
     owner = models.ForeignKey(User)
     
     name = models.CharField(max_length=255, blank=True, null=True)
     
-    ip = models.GenericIPAddressField()
+    hostname = models.CharField(max_length=255, blank=True, null=True)
+    ip = models.GenericIPAddressField(blank=True, null=True)
     status = models.CharField(max_length=1, default='E')
+    
+    def __str__(self):
+        return "%s %s / %s" % (get_id(self), hostname, ip)
 
 class MachineImage(models.Model):
     prefix = 'mi'
