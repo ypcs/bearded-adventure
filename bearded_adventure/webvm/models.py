@@ -51,6 +51,15 @@ class Slave(models.Model):
     def __str__(self):
         return "%s (%s, owner: %s)" % (get_id(self), self.name, self.owner)
 
+class Tunnel(models.Model):
+    uuid = UUIDField()
+    owner = models.ForeignKey(User)
+    
+    name = models.CharField(max_length=255, blank=True, null=True)
+    
+    ip = models.GenericIPAddressField()
+    status = models.CharField(max_length=1, default='E')
+
 class MachineImage(models.Model):
     prefix = 'mi'
     uuid = UUIDField()
