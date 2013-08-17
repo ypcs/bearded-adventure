@@ -78,6 +78,7 @@ class VirtualMachine(models.Model):
     prefix = 'vm'
     uuid = UUIDField()
     slave = models.ForeignKey(Slave, blank=True, null=True)
+    tunnel = models.ForeignKey(Tunnel, blank=True, null=True)
     
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
